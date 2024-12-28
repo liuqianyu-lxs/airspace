@@ -1,8 +1,16 @@
+BCCSP:
+    Default: SW
+    SW:
+        Hash: SHA2
+        Security: 256
+        FileKeyStore:
+            KeyStore:
 peer:
     id: peer0.airline3.example.com
     networkId: airspace
     listenAddress: 0.0.0.0:10051
     address: peer0.airline3.example.com:10051
+    localMspId: Airline3MSP 
     addressAutoDetect: false
     keepalive:
         minInterval: 60s

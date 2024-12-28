@@ -1,8 +1,17 @@
+BCCSP:
+    Default: SW
+    SW:
+        Hash: SHA2
+        Security: 256
+        FileKeyStore:
+            KeyStore:
+
 peer:
     id: peer0.unsp.example.com
     networkId: airspace
     listenAddress: 0.0.0.0:7051
     address: peer0.unsp.example.com:7051
+    localMspId: UNSPMSP
     addressAutoDetect: false
     keepalive:
         minInterval: 60s

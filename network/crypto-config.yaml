@@ -3,7 +3,11 @@ OrdererOrgs:
     Domain: unsp.example.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer1
+        SANS:
+          - localhost
+          - orderer1.unsp.example.com
+          - 127.0.0.1
     Users:
       Count: 1
 
@@ -11,7 +15,11 @@ OrdererOrgs:
     Domain: airline1.example.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer2
+        SANS:
+          - localhost
+          - orderer2.airline1.example.com
+          - 127.0.0.1
     Users:
       Count: 1
 
@@ -19,7 +27,11 @@ OrdererOrgs:
     Domain: airline2.example.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer3
+        SANS:
+          - localhost
+          - orderer3.airline2.example.com
+          - 127.0.0.1
     Users:
       Count: 1
 
@@ -27,7 +39,11 @@ OrdererOrgs:
     Domain: airline3.example.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer4
+        SANS:
+          - localhost
+          - orderer4.airline3.example.com
+          - 127.0.0.1
     Users:
       Count: 1
 
@@ -35,7 +51,11 @@ OrdererOrgs:
     Domain: airline4.example.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer5
+        SANS:
+          - localhost
+          - orderer5.airline4.example.com
+          - 127.0.0.1
     Users:
       Count: 1
 

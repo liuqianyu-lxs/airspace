@@ -1,0 +1,317 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+---
+Organizations:
+    - &UNSP
+        Name: UNSPMSP
+        ID: UNSPMSP
+        MSPDir: crypto-config/ordererOrganizations/unsp.example.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('UNSPMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('UNSPMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('UNSPMSP.admin')"
+        OrdererEndpoints:
+            - orderer.unsp.example.com:7050
+        AnchorPeers:
+            - Host: peer0.unsp.example.com
+              Port: 7051
+
+    - &Airline1
+        Name: Airline1MSP
+        ID: Airline1MSP
+        MSPDir: crypto-config/ordererOrganizations/airline1.example.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('Airline1MSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('Airline1MSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('Airline1MSP.admin')"
+        OrdererEndpoints:
+            - orderer.airline1.example.com:8050
+        AnchorPeers:
+            - Host: peer0.airline1.example.com
+              Port: 8051
+
+    - &Airline2
+        Name: Airline2MSP
+        ID: Airline2MSP
+        MSPDir: crypto-config/ordererOrganizations/airline2.example.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('Airline2MSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('Airline2MSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('Airline2MSP.admin')"
+        OrdererEndpoints:
+            - orderer.airline2.example.com:9050
+        AnchorPeers:
+            - Host: peer0.airline2.example.com
+              Port: 9051
+
+    - &Airline3
+        Name: Airline3MSP
+        ID: Airline3MSP
+        MSPDir: crypto-config/ordererOrganizations/airline3.example.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('Airline3MSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('Airline3MSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('Airline3MSP.admin')"
+        OrdererEndpoints:
+            - orderer.airline3.example.com:10050
+        AnchorPeers:
+            - Host: peer0.airline3.example.com
+              Port: 10051
+
+    - &Airline4
+        Name: Airline4MSP
+        ID: Airline4MSP
+        MSPDir: crypto-config/ordererOrganizations/airline4.example.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('Airline4MSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('Airline4MSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('Airline4MSP.admin')"
+        OrdererEndpoints:
+            - orderer.airline4.example.com:11050
+        AnchorPeers:
+            - Host: peer0.airline4.example.com
+              Port: 11051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+    OrdererType: etcdraft
+    Addresses:
+        - orderer.unsp.example.com:7050
+        - orderer.airline1.example.com:8050
+        - orderer.airline2.example.com:9050
+        - orderer.airline3.example.com:10050
+        - orderer.airline4.example.com:11050
+
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+
+    EtcdRaft:
+        Consenters:
+            - Host: orderer.unsp.example.com
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/unsp.example.com/orderers/orderer1.unsp.example.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/unsp.example.com/orderers/orderer1.unsp.example.com/tls/server.crt
+            - Host: orderer.airline1.example.com
+              Port: 8050
+              ClientTLSCert: crypto-config/ordererOrganizations/airline1.example.com/orderers/orderer2.airline1.example.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/airline1.example.com/orderers/orderer2.airline1.example.com/tls/server.crt
+            - Host: orderer.airline2.example.com
+              Port: 9050
+              ClientTLSCert: crypto-config/ordererOrganizations/airline2.example.com/orderers/orderer3.airline2.example.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/airline2.example.com/orderers/orderer3.airline2.example.com/tls/server.crt
+            - Host: orderer.airline3.example.com
+              Port: 10050
+              ClientTLSCert: crypto-config/ordererOrganizations/airline3.example.com/orderers/orderer4.airline3.example.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/airline3.example.com/orderers/orderer4.airline3.example.com/tls/server.crt
+            - Host: orderer.airline4.example.com
+              Port: 11050
+              ClientTLSCert: crypto-config/ordererOrganizations/airline4.example.com/orderers/orderer5.airline4.example.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/airline4.example.com/orderers/orderer5.airline4.example.com/tls/server.crt
+        Options:
+            TickInterval: 500ms
+            ElectionTick: 10
+            HeartbeatTick: 1
+            MaxInflightBlocks: 5
+            SnapshotIntervalSize: 16 MB
+
+    Organizations:
+        - *UNSP
+        - *Airline1
+        - *Airline2
+        - *Airline3
+        - *Airline4
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    airspacechannel:
+        Consortium: AirspaceConsortium
+        <<: *ChannelDefaults
+        Policies:
+            Readers:
+                Type: ImplicitMeta
+                Rule: "ANY Readers"
+            Writers:
+                Type: ImplicitMeta
+                Rule: "ANY Writers"
+            Admins:
+                Type: ImplicitMeta
+                Rule: "MAJORITY Admins"
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *UNSP
+                - *Airline1
+                - *Airline2
+                - *Airline3
+                - *Airline4
+            Capabilities:
+                <<: *OrdererCapabilities
+            Policies:
+                Readers:
+                    Type: ImplicitMeta
+                    Rule: "ANY Readers"
+                Writers:
+                    Type: ImplicitMeta
+                    Rule: "ANY Writers"
+                Admins:
+                    Type: ImplicitMeta
+                    Rule: "MAJORITY Admins"
+                BlockValidation:
+                    Type: ImplicitMeta
+                    Rule: "ANY Writers"
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *UNSP
+                - *Airline1
+                - *Airline2
+                - *Airline3
+                - *Airline4
+            Capabilities:
+                <<: *ApplicationCapabilities
+            Policies:
+                Readers:
+                    Type: ImplicitMeta
+                    Rule: "ANY Readers"
+                Writers:
+                    Type: ImplicitMeta
+                    Rule: "ANY Writers"
+                Admins:
+                    Type: ImplicitMeta
+                    Rule: "MAJORITY Admins"
+                LifecycleEndorsement:
+                    Type: ImplicitMeta
+                    Rule: "MAJORITY Endorsement"
+                Endorsement:
+                    Type: ImplicitMeta
+                    Rule: "MAJORITY Endorsement"
+
+    OrdererGenesis:
+        <<: *ChannelDefaults
+        Consortiums:
+            AirspaceConsortium:
+                Organizations:
+                    - *UNSP
+                    - *Airline1
+                    - *Airline2
+                    - *Airline3
+                    - *Airline4
+#        Capabilities:
+#            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *UNSP
+                - *Airline1
+                - *Airline2
+                - *Airline3
+                - *Airline4
+            Capabilities:
+                <<: *OrdererCapabilities
+            Policies:
+                Readers:
+                    Type: ImplicitMeta
+                    Rule: "ANY Readers"
+                Writers:
+                    Type: ImplicitMeta
+                    Rule: "ANY Writers"
+                Admins:
+                    Type: ImplicitMeta
+                    Rule: "MAJORITY Admins"
+                BlockValidation:
+                    Type: ImplicitMeta
+                    Rule: "ANY Writers"

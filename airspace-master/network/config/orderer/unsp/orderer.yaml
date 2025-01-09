@@ -1,0 +1,58 @@
+General:
+  ListenAddress: 0.0.0.0
+  ListenPort: 7050
+  TLS:
+    Enabled: true
+    PrivateKey: /etc/hyperledger/orderer/tls/server.key
+    Certificate: /etc/hyperledger/orderer/tls/server.crt
+    RootCAs:
+      - /etc/hyperledger/orderer/tlsca/unsp/tlsca.unsp.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline1/tlsca.airline1.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline2/tlsca.airline2.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline3/tlsca.airline3.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline4/tlsca.airline4.example.com-cert.pem
+    ClientRootCAs:
+      - /etc/hyperledger/orderer/tlsca/unsp/tlsca.unsp.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline1/tlsca.airline1.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline2/tlsca.airline2.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline3/tlsca.airline3.example.com-cert.pem
+      - /etc/hyperledger/orderer/tlsca/airline4/tlsca.airline4.example.com-cert.pem
+  LocalMSPDir: /etc/hyperledger/orderer/msp
+  LocalMSPID: UNSPMSP
+  Cluster:
+    ClientCertificate: /etc/hyperledger/orderer/tls/server.crt
+    ClientPrivateKey: /etc/hyperledger/orderer/tls/server.key
+    RootCAs:
+      - /etc/hyperledger/orderer/tls/ca.crt
+
+FileLedger:
+  Location: /var/hyperledger/production/orderer
+
+ChannelParticipation:
+  Enabled: true
+  MaxRequestBodySize: 1 MB
+
+Consensus:
+  Type: etcdraft
+  WALDir: /var/hyperledger/production/orderer/etcdraft/wal
+  SnapDir: /var/hyperledger/production/orderer/etcdraft/snapshot
+
+Admin:
+  ListenAddress: 0.0.0.0:7053
+  TLS:
+    Enabled: true
+    Certificate: /etc/hyperledger/orderer/tls/server.crt
+    PrivateKey: /etc/hyperledger/orderer/tls/server.key
+    ClientAuthRequired: true
+    RootCAs:
+      - /etc/hyperledger/orderer/tlsca/unsp/tlsca.unsp.example.com-cert.pem
+    ClientRootCAs:
+      - /etc/hyperledger/orderer/tlsca/unsp/tlsca.unsp.example.com-cert.pem
+
+Metrics:
+  Provider: prometheus
+  Statsd:
+    Network: udp
+    Address: 127.0.0.1:8125
+    WriteInterval: 30s
+    Prefix: server

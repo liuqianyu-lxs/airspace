@@ -1,0 +1,101 @@
+OrdererOrgs:
+  - Name: UNSP
+    Domain: unsp.example.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer1
+        SANS:
+          - localhost
+          - orderer1.unsp.example.com
+          - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: Airline1
+    Domain: airline1.example.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer2
+        SANS:
+          - localhost
+          - orderer2.airline1.example.com
+          - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: Airline2
+    Domain: airline2.example.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer3
+        SANS:
+          - localhost
+          - orderer3.airline2.example.com
+          - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: Airline3
+    Domain: airline3.example.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer4
+        SANS:
+          - localhost
+          - orderer4.airline3.example.com
+          - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: Airline4
+    Domain: airline4.example.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer5
+        SANS:
+          - localhost
+          - orderer5.airline4.example.com
+          - 127.0.0.1
+    Users:
+      Count: 1
+
+PeerOrgs:
+  - Name: UNSP
+    Domain: unsp.example.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1
+
+  - Name: Airline1
+    Domain: airline1.example.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1  
+
+  - Name: Airline2
+    Domain: airline2.example.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1  
+
+  - Name: Airline3
+    Domain: airline3.example.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1  
+
+  - Name: Airline4
+    Domain: airline4.example.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1  

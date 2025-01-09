@@ -1,0 +1,432 @@
+networks:
+  airspace:
+    name: airspace
+    driver: bridge     
+
+services:
+  peer0.unsp.example.com:
+    container_name: peer0.unsp.example.com
+    image: hyperledger/fabric-peer:latest
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_ID=peer0.unsp.example.com
+      - CORE_PEER_ADDRESS=peer0.unsp.example.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.unsp.example.com:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.unsp.example.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.unsp.example.com:7051
+      - CORE_PEER_LOCALMSPID=UNSPMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
+      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=airspace
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 7051:7051
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/unsp.example.com/peers/peer0.unsp.example.com/msp:/etc/hyperledger/peer/msp
+      - ./crypto-config/peerOrganizations/unsp.example.com/peers/peer0.unsp.example.com/tls:/etc/hyperledger/peer/tls
+      - ./config/peer/unsp/core.yaml:/etc/hyperledger/peer/core.yaml
+    networks:
+      - airspace
+
+  peer0.airline1.example.com:
+    container_name: peer0.airline1.example.com
+    image: hyperledger/fabric-peer:latest
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_ID=peer0.airline1.example.com
+      - CORE_PEER_ADDRESS=peer0.airline1.example.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.airline1.example.com:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.airline1.example.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.airline1.example.com:8051
+      - CORE_PEER_LOCALMSPID=Airline1MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
+      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=airspace
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 8051:8051
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./config/peer/airline1/core.yaml:/etc/hyperledger/peer/core.yaml
+      - ./crypto-config/peerOrganizations/airline1.example.com/peers/peer0.airline1.example.com/msp:/etc/hyperledger/peer/msp
+      - ./crypto-config/peerOrganizations/airline1.example.com/peers/peer0.airline1.example.com/tls:/etc/hyperledger/peer/tls
+    networks:
+      - airspace
+
+  peer0.airline2.example.com:
+    container_name: peer0.airline2.example.com
+    image: hyperledger/fabric-peer:latest
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_ID=peer0.airline2.example.com
+      - CORE_PEER_ADDRESS=peer0.airline2.example.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.airline2.example.com:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.airline2.example.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.airline2.example.com:9051
+      - CORE_PEER_LOCALMSPID=Airline2MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
+      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=airspace
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 9051:9051
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./config/peer/airline2/core.yaml:/etc/hyperledger/peer/core.yaml
+      - ./crypto-config/peerOrganizations/airline2.example.com/peers/peer0.airline2.example.com/msp:/etc/hyperledger/peer/msp
+      - ./crypto-config/peerOrganizations/airline2.example.com/peers/peer0.airline2.example.com/tls:/etc/hyperledger/peer/tls
+    networks:
+      - airspace
+
+  peer0.airline3.example.com:
+    container_name: peer0.airline3.example.com
+    image: hyperledger/fabric-peer:latest
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_ID=peer0.airline3.example.com
+      - CORE_PEER_ADDRESS=peer0.airline3.example.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.airline3.example.com:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.airline3.example.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.airline3.example.com:10051
+      - CORE_PEER_LOCALMSPID=Airline3MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
+      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=airspace
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 10051:10051
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./config/peer/airline3/core.yaml:/etc/hyperledger/peer/core.yaml
+      - ./crypto-config/peerOrganizations/airline3.example.com/peers/peer0.airline3.example.com/msp:/etc/hyperledger/peer/msp
+      - ./crypto-config/peerOrganizations/airline3.example.com/peers/peer0.airline3.example.com/tls:/etc/hyperledger/peer/tls
+    networks:
+      - airspace
+
+  peer0.airline4.example.com:
+    container_name: peer0.airline4.example.com
+    image: hyperledger/fabric-peer:latest
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_ID=peer0.airline4.example.com
+      - CORE_PEER_ADDRESS=peer0.airline4.example.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.airline4.example.com:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.airline4.example.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.airline4.example.com:11051
+      - CORE_PEER_LOCALMSPID=Airline4MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/ca.crt
+      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=airspace
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 11051:11051
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./config/peer/airline4/core.yaml:/etc/hyperledger/peer/core.yaml
+      - ./crypto-config/peerOrganizations/airline4.example.com/peers/peer0.airline4.example.com/msp:/etc/hyperledger/peer/msp
+      - ./crypto-config/peerOrganizations/airline4.example.com/peers/peer0.airline4.example.com/tls:/etc/hyperledger/peer/tls
+    networks:
+      - airspace
+
+  orderer1.unsp.example.com:
+    container_name: orderer1.unsp.example.com
+    image: hyperledger/fabric-orderer:latest
+    environment:
+      - ORDERER_GENERAL_MAXREQUESTSIZE=100MB  # 增加请求大小限制
+      - ORDERER_GENERAL_MAXMESSAGESIZE=100MB 
+      - FABRIC_CFG_PATH=/etc/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7053 
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_LOCALMSPID=UNSPMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    volumes:
+      - ./data/unsp:/var/hyperledger/production/orderer
+      - ./channel-artifacts/genesis.block:/etc/hyperledger/orderer/genesis.block
+      - ./crypto-config/ordererOrganizations/unsp.example.com/orderers/orderer1.unsp.example.com/msp:/etc/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/unsp.example.com/orderers/orderer1.unsp.example.com/tls:/etc/hyperledger/orderer/tls
+      - ./crypto-config/ordererOrganizations/unsp.example.com/tlsca:/etc/hyperledger/orderer/tlsca/unsp
+      - ./crypto-config/ordererOrganizations/airline1.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline1
+      - ./crypto-config/ordererOrganizations/airline2.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline2
+      - ./crypto-config/ordererOrganizations/airline3.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline3
+      - ./crypto-config/ordererOrganizations/airline4.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline4
+      - ./config/orderer/unsp/orderer.yaml:/etc/hyperledger/orderer/orderer.yaml
+    ports:
+      - 7050:7050
+      - 7053:7053
+    networks:
+      - airspace
+
+  orderer2.airline1.example.com:
+    container_name: orderer2.airline1.example.com
+    image: hyperledger/fabric-orderer:latest
+    environment:
+      - ORDERER_GENERAL_MAXREQUESTSIZE=100MB  # 增加请求大小限制
+      - ORDERER_GENERAL_MAXMESSAGESIZE=100MB 
+      - FABRIC_CFG_PATH=/etc/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:8053 
+      - ORDERER_GENERAL_LISTENPORT=8050
+      - ORDERER_GENERAL_LOCALMSPID=Airline1MSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    command: orderer
+    ports:
+      - 8050:8050
+      - 8053:8053
+    volumes:
+      - ./data/airline1:/var/hyperledger/production/orderer
+      - ./config/orderer/airline1/orderer.yaml:/etc/hyperledger/orderer/orderer.yaml
+      - ./crypto-config/ordererOrganizations/unsp.example.com/tlsca:/etc/hyperledger/orderer/tlsca/unsp
+      - ./crypto-config/ordererOrganizations/airline1.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline1
+      - ./crypto-config/ordererOrganizations/airline2.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline2
+      - ./crypto-config/ordererOrganizations/airline3.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline3
+      - ./crypto-config/ordererOrganizations/airline4.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline4
+      - ./channel-artifacts/genesis.block:/etc/hyperledger/orderer/genesis.block
+      - ./crypto-config/ordererOrganizations/airline1.example.com/orderers/orderer2.airline1.example.com/msp:/etc/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/airline1.example.com/orderers/orderer2.airline1.example.com/tls:/etc/hyperledger/orderer/tls
+    networks:
+      - airspace
+
+  orderer3.airline2.example.com:
+    container_name: orderer3.airline2.example.com
+    image: hyperledger/fabric-orderer:latest
+    environment:
+      - ORDERER_GENERAL_MAXREQUESTSIZE=100MB  # 增加请求大小限制
+      - ORDERER_GENERAL_MAXMESSAGESIZE=100MB 
+      - FABRIC_CFG_PATH=/etc/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:9053 
+      - ORDERER_GENERAL_LISTENPORT=9050
+      - ORDERER_GENERAL_LOCALMSPID=Airline2MSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    command: orderer
+    ports:
+      - 9050:9050
+      - 9053:9053
+    volumes:
+      - ./data/airline2:/var/hyperledger/production/orderer
+      - ./config/orderer/airline2/orderer.yaml:/etc/hyperledger/orderer/orderer.yaml
+      - ./crypto-config/ordererOrganizations/unsp.example.com/tlsca:/etc/hyperledger/orderer/tlsca/unsp
+      - ./crypto-config/ordererOrganizations/airline1.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline1
+      - ./crypto-config/ordererOrganizations/airline2.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline2
+      - ./crypto-config/ordererOrganizations/airline3.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline3
+      - ./crypto-config/ordererOrganizations/airline4.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline4
+      - ./channel-artifacts/genesis.block:/etc/hyperledger/orderer/genesis.block
+      - ./crypto-config/ordererOrganizations/airline2.example.com/orderers/orderer3.airline2.example.com/msp:/etc/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/airline2.example.com/orderers/orderer3.airline2.example.com/tls:/etc/hyperledger/orderer/tls
+    networks:
+      - airspace
+
+  orderer4.airline3.example.com:
+    container_name: orderer4.airline3.example.com
+    image: hyperledger/fabric-orderer:latest
+    environment:
+      - ORDERER_GENERAL_MAXREQUESTSIZE=100MB  # 增加请求大小限制
+      - ORDERER_GENERAL_MAXMESSAGESIZE=100MB 
+      - FABRIC_CFG_PATH=/etc/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:10053 
+      - ORDERER_GENERAL_LISTENPORT=10050
+      - ORDERER_GENERAL_LOCALMSPID=Airline3MSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    command: orderer
+    ports:
+      - 10050:10050
+      - 10053:10053
+    volumes:
+      - ./data/airline3:/var/hyperledger/production/orderer
+      - ./config/orderer/airline3/orderer.yaml:/etc/hyperledger/orderer/orderer.yaml
+      - ./crypto-config/ordererOrganizations/unsp.example.com/tlsca:/etc/hyperledger/orderer/tlsca/unsp
+      - ./crypto-config/ordererOrganizations/airline1.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline1
+      - ./crypto-config/ordererOrganizations/airline2.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline2
+      - ./crypto-config/ordererOrganizations/airline3.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline3
+      - ./crypto-config/ordererOrganizations/airline4.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline4
+      - ./channel-artifacts/genesis.block:/etc/hyperledger/orderer/genesis.block
+      - ./crypto-config/ordererOrganizations/airline3.example.com/orderers/orderer4.airline3.example.com/msp:/etc/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/airline3.example.com/orderers/orderer4.airline3.example.com/tls:/etc/hyperledger/orderer/tls
+    networks:
+      - airspace
+
+  orderer5.airline4.example.com:
+    container_name: orderer5.airline4.example.com
+    image: hyperledger/fabric-orderer:latest
+    environment:
+      - ORDERER_GENERAL_MAXREQUESTSIZE=100MB  # 增加请求大小限制
+      - ORDERER_GENERAL_MAXMESSAGESIZE=100MB 
+      - FABRIC_CFG_PATH=/etc/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:11053 
+      - ORDERER_GENERAL_LISTENPORT=11050
+      - ORDERER_GENERAL_LOCALMSPID=Airline4MSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/etc/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    command: orderer
+    ports:
+      - 11050:11050
+      - 11053:11053
+    volumes:
+      - ./data/airline4:/var/hyperledger/production
+      - ./config/orderer/airline4/orderer.yaml:/etc/hyperledger/orderer/orderer.yaml
+      - ./crypto-config/ordererOrganizations/unsp.example.com/tlsca:/etc/hyperledger/orderer/tlsca/unsp
+      - ./crypto-config/ordererOrganizations/airline1.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline1
+      - ./crypto-config/ordererOrganizations/airline2.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline2
+      - ./crypto-config/ordererOrganizations/airline3.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline3
+      - ./crypto-config/ordererOrganizations/airline4.example.com/tlsca:/etc/hyperledger/orderer/tlsca/airline4
+      - ./crypto-config/ordererOrganizations/airline4.example.com/orderers/orderer5.airline4.example.com/msp:/etc/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/airline4.example.com/orderers/orderer5.airline4.example.com/tls:/etc/hyperledger/orderer/tls
+      - ./channel-artifacts/genesis.block:/etc/hyperledger/orderer/genesis.block
+    networks:
+      - airspace
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_PEER_ID=cli
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_PEER_ADDRESS=peer0.unsp.example.com:7051
+      - CORE_PEER_LOCALMSPID=UNSPMSP
+      - CORE_PEER_BCCSP_DEFAULT=SW
+      - CORE_PEER_BCCSP_SW_HASH=SHA2
+      - CORE_PEER_BCCSP_SW_SECURITY=256
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/unsp.example.com/peers/peer0.unsp.example.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/unsp.example.com/peers/peer0.unsp.example.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/unsp.example.com/peers/peer0.unsp.example.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/unsp.example.com/users/Admin@unsp.example.com/msp
+#      - FABRIC_CFG_PATH=/etc/hyperledger/peer 
+      - FABRIC_LOGGING_SPEC=INFO 
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash -c 'sleep 3; tail -f /dev/null' 
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/ordererOrganizations/:/opt/gopath/src/github.com/hyperledger/fabric/orderer/crypto-config/ordererOrganizations
+      - ./crypto-config/peerOrganizations/:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts
+      - ./crypto-config/ordererOrganizations/unsp.example.com/orderers/orderer1.unsp.example.com/tls:/etc/hyperledger/orderer/tls
+      - ./crypto-config/ordererOrganizations/unsp.example.com/orderers/orderer1.unsp.example.com/msp:/etc/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/unsp.example.com/tlsca:/etc/hyperledger/orderer/tlsca
+      - ./crypto-config/peerOrganizations/unsp.example.com/peers/peer0.unsp.example.com/tls:/etc/hyperledger/peer/tls
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+      - ../chaincode-go:/opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode-go
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ./config/peer/unsp/core.yaml:/etc/hyperledger/peer/core.yaml
+
+    depends_on:
+      - orderer1.unsp.example.com 
+      - orderer2.airline1.example.com
+      - orderer3.airline2.example.com
+      - orderer4.airline3.example.com
+      - orderer5.airline4.example.com
+      - peer0.unsp.example.com
+      - peer0.airline1.example.com
+      - peer0.airline2.example.com
+      - peer0.airline3.example.com
+      - peer0.airline4.example.com
+    networks:
+      - airspace
+

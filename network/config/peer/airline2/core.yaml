@@ -1,0 +1,114 @@
+BCCSP:
+    Default: SW
+    SW:
+        Hash: SHA2
+        Security: 256
+        FileKeyStore:
+            KeyStore: /etc/hyperledger/peer/msp/keystore
+peer:
+    id: peer0.airline2.example.com
+    networkId: airspace
+    listenAddress: 0.0.0.0:9051
+    address: peer0.airline2.example.com:9051
+    localMspId: Airline2MSP 
+    addressAutoDetect: false
+    keepalive:
+        minInterval: 60s
+        client:
+            interval: 60s
+            timeout: 20s
+        deliveryClient:
+            interval: 60s
+            timeout: 20s
+    gossip:
+        bootstrap: "peer0.unsp.example.com:7051,peer0.airline1.example.com:8051,peer0.airline2.example.com:9051,peer0.airline3.example.com:10051,peer0.airline4.example.com:11051"
+        useLeaderElection: true
+        orgLeader: false
+        membershipTrackerInterval: 5s
+        endpoint: peer0.airline2.example.com:9051
+        externalEndpoint: peer0.airline2.example.com:9051
+        maxBlockCountToStore: 100
+        maxPropagationBurstLatency: 10ms
+        maxPropagationBurstSize: 10
+        propagateIterations: 1
+        propagatePeerNum: 3
+        pullInterval: 4s
+        pullPeerNum: 3
+        requestStateInfoInterval: 4s
+        publishStateInfoInterval: 4s
+        stateInfoRetentionInterval:
+        publishCertPeriod: 10s
+        skipBlockVerification: false
+        dialTimeout: 3s
+        connTimeout: 2s
+        recvBuffSize: 20
+        sendBuffSize: 200
+    events:
+        address: 0.0.0.0:9053
+        buffersize: 100
+        timeout: 10ms
+        timewindow: 15m
+        keepalive:
+            minInterval: 60s
+
+    tls:
+        enabled: true
+        clientAuthRequired: false
+        cert:
+            file: /etc/hyperledger/peer/tls/server.crt
+        key:
+            file: /etc/hyperledger/peer/tls/server.key
+        rootcert:
+            file: /etc/hyperledger/peer/all-orderer-tlscacerts.pem
+        clientRootCAs:
+            files:
+              - /etc/hyperledger/peer/all-orderer-tlscacerts.pem
+
+    authentication:
+        timewindow: 15m
+
+chaincode:
+    install:
+        timeout: 300s
+    startuptimeout: 300s
+    executetimeout: 30s
+    mode: net
+    keepalive: 0
+    system:
+        cscc: enable
+        lscc: enable
+        escc: enable
+        vscc: enable
+        qscc: enable
+    logging:
+        level:  info
+        shim:   warning
+        format: '%{color}%{time:2006-01-02 15:04:05.000 MST} [%{module}] %{shortfunc} -> %{level:.4s} %{id:03x}%{color:reset} %{message}'
+
+ledger:
+    blockchain:
+    state:
+        stateDatabase: goleveldb
+        totalQueryLimit: 100000
+    history:
+        enableHistoryDatabase: true
+
+operations:
+    listenAddress: 0.0.0.0:9443
+    tls:
+        enabled: true
+        cert:
+            file:
+        key:
+            file:
+        clientAuthRequired: false
+        clientRootCAs:
+            files: []
+
+metrics:
+    provider: disabled
+    statsd:
+        network: udp
+        address: 127.0.0.1:8125
+        writeInterval: 10s
+        prefix:

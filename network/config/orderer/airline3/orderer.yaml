@@ -1,0 +1,51 @@
+General:
+  ListenAddress: 0.0.0.0
+  ListenPort: 10050
+  TLS:
+    Enabled: true
+    PrivateKey: /etc/hyperledger/orderer/tls/server.key
+    Certificate: /etc/hyperledger/orderer/tls/server.crt
+    RootCAs:
+      - ./crypto-config/all-orderer-tlscacerts.pem:/etc/hyperledger/peer/all-orderer-tlscacerts.pem
+    ClientRootCAs:
+      - ./crypto-config/all-orderer-tlscacerts.pem:/etc/hyperledger/peer/all-orderer-tlscacerts.pem
+  LocalMSPDir: /etc/hyperledger/orderer/msp
+  LocalMSPID: Airline3MSP
+  GenesisFile: /etc/hyperledger/orderer/genesis.block
+  Cluster:
+    ClientCertificate: /etc/hyperledger/orderer/tls/server.crt
+    ClientPrivateKey: /etc/hyperledger/orderer/tls/server.key
+    RootCAs:
+      - ./crypto-config/all-orderer-tlscacerts.pem:/etc/hyperledger/peer/all-orderer-tlscacerts.pem
+
+FileLedger:
+  Location: /var/hyperledger/production/orderer
+
+ChannelParticipation:
+  Enabled: true
+  MaxRequestBodySize: 1 MB
+
+Consensus:
+  Type: etcdraft
+  WALDir: /var/hyperledger/production/orderer/etcdraft/wal
+  SnapDir: /var/hyperledger/production/orderer/etcdraft/snapshot
+
+Admin:
+  ListenAddress: 0.0.0.0:10053
+  TLS:
+    Enabled: true
+    Certificate: /etc/hyperledger/orderer/tls/server.crt
+    PrivateKey: /etc/hyperledger/orderer/tls/server.key
+    ClientAuthRequired: true
+    RootCAs:
+      - /etc/hyperledger/orderer/tlsca/airline3/tlsca.airline3.example.com-cert.pem
+    ClientRootCAs:
+      - /etc/hyperledger/orderer/tlsca/airline3/tlsca.airline3.example.com-cert.pem
+
+Metrics:
+  Provider: prometheus
+  Statsd:
+    Network: udp
+    Address: 127.0.0.1:8125
+    WriteInterval: 30s
+    Prefix: server
